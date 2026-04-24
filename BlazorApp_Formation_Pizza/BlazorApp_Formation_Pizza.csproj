@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BlazorApp_Formation_Pizza_Infrastructure\BlazorApp_Formation_Pizza_Infrastructure.csproj" />
     <ProjectReference Include="..\BlazorApp_Formation_Pizza_Model_DTO\BlazorApp_Formation_Pizza_Model_DTO.csproj" />
   </ItemGroup>
 

@@ -1,10 +1,14 @@
 using BlazorApp_Formation_Pizza.Components;
+using BlazorApp_Formation_Pizza_Infrastructure.Services;
+using BlazorApp_Formation_Pizza_Interface.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddSingleton<IPizzaManager, InMemoryPizzaManager>();
 
 var app = builder.Build();
 

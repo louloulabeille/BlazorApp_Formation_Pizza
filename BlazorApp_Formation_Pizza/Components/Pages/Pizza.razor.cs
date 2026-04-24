@@ -1,4 +1,5 @@
-﻿using BlazorApp_Formation_Pizza_Model_DTO;
+﻿using BlazorApp_Formation_Pizza_Interface.Services;
+using BlazorApp_Formation_Pizza_Model_DTO;
 using Microsoft.AspNetCore.Components;
 
 namespace BlazorApp_Formation_Pizza.Components.Pages
@@ -16,8 +17,8 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
         protected bool Loading = true;
         protected bool Admin { get { return _admin; } set { if(!_admin) Pizza = null; _admin = value; } }
         protected PizzaDTO? Pizza;  // - pizza à modifier
-        
-        // - test avec cun tableau d'ingredients
+
+        // - test avec un tableau d'ingredients on prend une propertie en intermédiaire pour l'affichage dans le formulaire et l'enregistrement
         /*protected string Ingredients
         { 
             get {
@@ -29,6 +30,12 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
             } 
         }*/
         #endregion
+
+        #region private inject properties
+        [Inject]
+        private IPizzaManager _pizzaManager { get; set; } = default!;
+        #endregion
+
 
         #region override methods
         /// <summary>
@@ -113,16 +120,7 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
         /// <returns></returns>
         private async Task<List<PizzaDTO>> GetPizzas()
         {
-            var pizzas = new List<PizzaDTO>
-            {
-                new (){ Id = 1, NomPizza = "Bacon", DescriptionPizza = "Tomate, mozzarella, basilic, Bacon", Ingredients = [] ,PrixPizza = 14.50, ImagePizza = "lib/Images/ImgPizza/bacon.jpg" },
-                new (){ Id = 2, NomPizza = "Cheese", DescriptionPizza = "Tomate, mozzarella, gorgonzola", Ingredients = [] ,PrixPizza = 13.80, ImagePizza = "lib/Images/ImgPizza/cheese.jpg" },
-                new (){ Id = 3, NomPizza = "Margherita", DescriptionPizza = "Tomate, mozzarella, basilic", Ingredients = [] ,PrixPizza = 12, ImagePizza = "lib/Images/ImgPizza/margherita.jpg" },
-                new (){ Id = 4, NomPizza = "Meaty", DescriptionPizza = "Tomate, mozzarella, basilic, viande hachée, ricotta",Ingredients = [] , PrixPizza = 17, ImagePizza = "lib/Images/ImgPizza/meaty.jpg" },
-                new (){ Id = 5, NomPizza = "Champignon", DescriptionPizza = "Tomate, mozzarella, basilic, Bacon, Champignon de Paris", Ingredients = [] ,PrixPizza = 13.20, ImagePizza = "lib/Images/ImgPizza/mushroom.jpg" },
-                new (){ Id = 6, NomPizza = "Pepperoni", DescriptionPizza = "Tomate, mozzarella, basilic, pepperoni", Ingredients = [] ,PrixPizza = 13.20, ImagePizza = "lib/Images/ImgPizza/pepperoni.jpg" },
-                new (){ Id = 7, NomPizza = "Veggie", DescriptionPizza = "Tomate, mozzarella, basilic, aubergine, roquette", Ingredients = [] ,PrixPizza = 12.50, ImagePizza = "lib/Images/ImgPizza/veggie.jpg" },
-            };
+            var pizzas = await _pizzaManager.GetPizzas();
 
             _ = Task.Delay(2000).ContinueWith(_ => 
             { 
@@ -130,7 +128,7 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
                 InvokeAsync(StateHasChanged);
             });
 
-            return pizzas;
+            return pizzas.ToList();
         }
 
         /// <summary>
