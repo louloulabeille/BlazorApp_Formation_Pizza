@@ -9,6 +9,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddSingleton<IPizzaManager, InMemoryPizzaManager>();
+builder.Services.AddScoped<IPanierManager, InMemoryPanierManager>();
 
 var app = builder.Build();
 

@@ -5,9 +5,9 @@ using System.Text;
 
 namespace BlazorApp_Formation_Pizza_Interface.Services
 {
-    public interface IPizzaManager
+    public interface IPanierManager
     {
-        public Task<IEnumerable<PizzaDTO>> GetPizzas();
+        public Task<IEnumerable<PizzaDTO>> GetPanier();
         public Task AddOrUpdate(PizzaDTO pizza);
     }
 }

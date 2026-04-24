@@ -57,11 +57,12 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
         protected void SavePizza()
         {
             var piz= PizzaList.Find(x=> x.Id == Pizza!.Id);
-            if (piz is not null)
+            if (piz is not null && Pizza is not null)
             {
-                piz.NomPizza            = Pizza!.NomPizza;
-                piz.DescriptionPizza    = Pizza!.DescriptionPizza;
-                piz.PrixPizza           = Pizza!.PrixPizza;
+                _pizzaManager.AddOrUpdate(Pizza);
+                piz.NomPizza            = Pizza.NomPizza;
+                piz.DescriptionPizza    = Pizza.DescriptionPizza;
+                piz.PrixPizza           = Pizza.PrixPizza;
                 MiseAJourPanier();
             }
             Pizza = null;
@@ -128,7 +129,7 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
                 InvokeAsync(StateHasChanged);
             });
 
-            return pizzas.ToList();
+            return [.. pizzas];
         }
 
         /// <summary>
