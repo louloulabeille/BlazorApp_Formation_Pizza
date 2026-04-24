@@ -6,7 +6,8 @@
 <h3>Pizzas</h3>
 
 <div>
-    <InputCheckbox  @bind-value="Admin" /><label>Mode admin</label>
+    <!-- nbsp; ajoute un espace -->
+    <InputCheckbox  @bind-value="Admin" /><label>&nbsp; Mode admin</label>
 </div>
 
 @if (Pizza is not null && Admin)
@@ -22,10 +23,12 @@
         </div>
         <div Class="form-group">
             <label class="col-form-label">Description et ingrédient de la pizza</label>
-            <InputText Class="form-control" @bind-Value="Pizza.DescriptionPizza" />
+            <!--<InputText Class="form-control" @bind-Value="Pizza.DescriptionPizza" @bind-Value:event="oninput" @onchange="()=>Copie(Pizza.DescriptionPizza)"/>-->
+            <InputText Class="form-control" @bind-Value="Pizza.DescriptionPizza"/>
             <small>
                 <ValidationMessage For="() => Pizza.DescriptionPizza" />
             </small>
+            <!--<InputText Class="form-control" @bind-Value="Ingredients" />-->
         </div>
         <div Class="form-group">
             <label class="col-form-label">Prix (en €)</label>
@@ -52,23 +55,29 @@ else
         {
             <div class="row">
                 <div class="col-2 text-center">
+                    <!-- <div class="Pizza-image" style="background-image:url('@pizza.ImagePizza')"></div> -->
                     <img rounded class="pizza-image" src="@pizza.ImagePizza" alt="@pizza.NomPizza" style="width:70px;height:70px;" />
                 </div>
                 
                 <div class="col">
                     <h5 class="text-warning text-uppercase h5">@pizza.NomPizza</h5>
+                    <!-- pizza.DescriptionPizza au niveau du cours il est parti sur un trableau de string -> faire une liste d'ingredients à faire par la suite -->
+                    <!--<div class="pizza-ingredients">@string.Join(", ",pizza.DescriptionPizza) </div>-->
                     <p class="fs-6">@pizza.DescriptionPizza</p>
                 </div>
                 <div class="col-2 text-center fs-6">
                     <div class="row">
-                                <p class="mb-0 small text-primary">@pizza.PrixPizza.ToString("C2")</p>
+                        <!--<div class="pizza-price">@pizza.PrixPizza.ToString("0.00") &euro;</div>-->
+                        <p class="mb-0 small text-primary">@pizza.PrixPizza.ToString("C2")</p>
                     </div>
                     <div class="row">
+                        <!--<div class="pizza-add-basket" @onclick="() => AddToCart(pizza)" ><i class="fas fa-shopping-basket"></i></div>-->
                         <button @onclick="() => AddToCart(pizza)" class="btn btn-primary-outline">
                             <img src="lib/Images/icons8-shopping-basket-50.png" alt="Ajouter dans le Panier" style="width:25px;height:25px" />
                         </button>
                     </div>                    
                 </div>
+                <!--<div class="edit-pizza" @onclick="() => EditPizza(pizza)"><i class="fas fa-edit"></i></div>-->
                 <div hidden="@(!Admin)" class="col-1 ">
                     <button @onclick="() => EditPizza(pizza)" class="btn btn-primary-outline"><img src="lib/Images/icons8-inscription-48.png" style="width:24px; height:24px" alt="Modifier Pizza" /></button>
                 </div>
@@ -85,15 +94,17 @@ else
                             <h5 class="h5 text-warning text-uppercase">@pizza.NomPizza</h5>
                 </div>
                 <div class="col-3 fs-6 text-center">
-                      <p>@pizza.PrixPizza.ToString("C2")</p>
+                    <!--<div>@pizza.PrixPizza.ToString("0.00") &euro;</div>-->
+                    <p>@pizza.PrixPizza.ToString("C2")</p>
                 </div>
                 <div class="col-1 text-center ">
-                    <button class="btn btn-primary-outline" @onclick="() => RemoveFromCart(pizza)"><img style="width:12px;height:12px" src="lib/Images/icons8-close-48.png" alt="Supprimer du Panier" /></button>
+                    <div class="basket-delete" @onclick="() => RemoveFromCart(pizza)"><i class="fas fa-times"></i></div>
+                    <!--<button class="btn btn-primary-outline" @onclick="() => RemoveFromCart(pizza)"><img style="width:12px;height:12px" src="lib/Images/icons8-close-48.png" alt="Supprimer du Panier" /></button>-->
                 </div>
             </div>
         }
             <div class="row text-center">
-                <h6 class="text-primary">Prix Total: @PrixTotal.ToString("C2")</h6>
+                <h6 class="text-primary">Prix Total: @Panier.Sum(w=>w.PrixPizza).ToString("C2")</h6>
             </div>
         </div>
 

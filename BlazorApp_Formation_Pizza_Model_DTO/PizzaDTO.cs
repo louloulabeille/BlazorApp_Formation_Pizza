@@ -5,7 +5,7 @@ namespace BlazorApp_Formation_Pizza_Model_DTO
     public class PizzaDTO
     {
         public int Id { get; set; }
-        [Required(ErrorMessage = "Le nom de la pizza est obligatoire."), StringLength(25,MinimumLength =5,ErrorMessage ="Le nom de la pizza doit contenir entre 5 et 25 caractères.")]
+        [Required(ErrorMessage = "Le nom de la pizza est obligatoire."), StringLength(25, MinimumLength = 5, ErrorMessage = "Le nom de la pizza doit contenir entre 5 et 25 caractères.")]
         public required string NomPizza { get; set; }
 
         [Required(ErrorMessage = "La description de la pizza est obligatoire."), StringLength(100, MinimumLength = 10, ErrorMessage = "La description de la pizza doit contenir entre 10 et 100 caractères.")]
@@ -15,5 +15,8 @@ namespace BlazorApp_Formation_Pizza_Model_DTO
         public required double PrixPizza { get; set; }
         [Required(ErrorMessage = "L'image de la pizza est obligatoire.")]
         public required string ImagePizza { get; set; }
+        [Required(ErrorMessage = "Les ingrédients de la pizza sont obligatoires.")]
+        public required string[] Ingredients { get; set; } = Array.Empty<string>();
+
     }
 }

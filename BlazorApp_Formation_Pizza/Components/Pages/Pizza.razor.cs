@@ -16,7 +16,18 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
         protected bool Loading = true;
         protected bool Admin { get { return _admin; } set { if(!_admin) Pizza = null; _admin = value; } }
         protected PizzaDTO? Pizza;  // - pizza à modifier
-        protected double PrixTotal = 0.0;
+        
+        // - test avec cun tableau d'ingredients
+        /*protected string Ingredients
+        { 
+            get {
+                return Pizza is not null ? string.Join(", ", Pizza.Ingredients) : string.Empty;
+            } 
+            set {
+                if (Pizza is not null)
+                    Pizza.Ingredients = value.Split(", ").Select(x => x.Trim()).ToArray(); ; 
+            } 
+        }*/
         #endregion
 
         #region override methods
@@ -28,7 +39,6 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
         protected override async Task OnInitializedAsync()
         {
             PizzaList.AddRange(await GetPizzas());
-            
             await base.OnInitializedAsync();
         }
         #endregion
@@ -39,10 +49,14 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
         /// </summary>
         protected void SavePizza()
         {
-            int index = PizzaList.FindIndex(x=> x.Id == Pizza!.Id);
-            PizzaList[index] = Pizza!;
-            MiseAJourPanier();
-            ReCalculPrixTotal();
+            var piz= PizzaList.Find(x=> x.Id == Pizza!.Id);
+            if (piz is not null)
+            {
+                piz.NomPizza            = Pizza!.NomPizza;
+                piz.DescriptionPizza    = Pizza!.DescriptionPizza;
+                piz.PrixPizza           = Pizza!.PrixPizza;
+                MiseAJourPanier();
+            }
             Pizza = null;
         }
 
@@ -53,7 +67,6 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
         protected void AddToCart(PizzaDTO pizza)
         {
             Panier.Add(pizza);
-            PrixTotal += pizza.PrixPizza;
         }
 
         /// <summary>
@@ -67,6 +80,7 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
                 NomPizza    = pizza.NomPizza,
                 DescriptionPizza = pizza.DescriptionPizza,
                 PrixPizza   = pizza.PrixPizza,
+                Ingredients = pizza.Ingredients,
                 ImagePizza  = pizza.ImagePizza
             };
         }
@@ -78,8 +92,17 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
         protected void RemoveFromCart(PizzaDTO pizza)
         {
             Panier.Remove(pizza);
-            PrixTotal -= pizza.PrixPizza;
         }
+
+        /// <summary>
+        /// copie la description de la pizza dans la variable Ingredients pour l'afficher dans le formulaire
+        /// </summary>
+        /// <param name="description"></param>
+        /*protected void Copie(string description)
+        {
+            Ingredients = description;
+        }*/
+
         #endregion
 
         #region private methods
@@ -92,13 +115,13 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
         {
             var pizzas = new List<PizzaDTO>
             {
-                new (){ Id = 1, NomPizza = "Bacon", DescriptionPizza = "Tomate, mozzarella, basilic, Bacon", PrixPizza = 14.50, ImagePizza = "lib/Images/ImgPizza/bacon.jpg" },
-                new (){ Id = 2, NomPizza = "Cheese", DescriptionPizza = "Tomate, mozzarella, gorgonzola", PrixPizza = 13.80, ImagePizza = "lib/Images/ImgPizza/cheese.jpg" },
-                new (){ Id = 3, NomPizza = "Margherita", DescriptionPizza = "Tomate, mozzarella, basilic", PrixPizza = 12, ImagePizza = "lib/Images/ImgPizza/margherita.jpg" },
-                new (){ Id = 4, NomPizza = "Meaty", DescriptionPizza = "Tomate, mozzarella, basilic, viande hachée, ricotta", PrixPizza = 17, ImagePizza = "lib/Images/ImgPizza/meaty.jpg" },
-                new (){ Id = 5, NomPizza = "Champignon", DescriptionPizza = "Tomate, mozzarella, basilic, Bacon, Champignon de Paris", PrixPizza = 13.20, ImagePizza = "lib/Images/ImgPizza/mushroom.jpg" },
-                new (){ Id = 6, NomPizza = "Pepperoni", DescriptionPizza = "Tomate, mozzarella, basilic, pepperoni", PrixPizza = 13.20, ImagePizza = "lib/Images/ImgPizza/pepperoni.jpg" },
-                new (){ Id = 7, NomPizza = "Veggie", DescriptionPizza = "Tomate, mozzarella, basilic, aubergine, roquette", PrixPizza = 12.50, ImagePizza = "lib/Images/ImgPizza/veggie.jpg" },
+                new (){ Id = 1, NomPizza = "Bacon", DescriptionPizza = "Tomate, mozzarella, basilic, Bacon", Ingredients = [] ,PrixPizza = 14.50, ImagePizza = "lib/Images/ImgPizza/bacon.jpg" },
+                new (){ Id = 2, NomPizza = "Cheese", DescriptionPizza = "Tomate, mozzarella, gorgonzola", Ingredients = [] ,PrixPizza = 13.80, ImagePizza = "lib/Images/ImgPizza/cheese.jpg" },
+                new (){ Id = 3, NomPizza = "Margherita", DescriptionPizza = "Tomate, mozzarella, basilic", Ingredients = [] ,PrixPizza = 12, ImagePizza = "lib/Images/ImgPizza/margherita.jpg" },
+                new (){ Id = 4, NomPizza = "Meaty", DescriptionPizza = "Tomate, mozzarella, basilic, viande hachée, ricotta",Ingredients = [] , PrixPizza = 17, ImagePizza = "lib/Images/ImgPizza/meaty.jpg" },
+                new (){ Id = 5, NomPizza = "Champignon", DescriptionPizza = "Tomate, mozzarella, basilic, Bacon, Champignon de Paris", Ingredients = [] ,PrixPizza = 13.20, ImagePizza = "lib/Images/ImgPizza/mushroom.jpg" },
+                new (){ Id = 6, NomPizza = "Pepperoni", DescriptionPizza = "Tomate, mozzarella, basilic, pepperoni", Ingredients = [] ,PrixPizza = 13.20, ImagePizza = "lib/Images/ImgPizza/pepperoni.jpg" },
+                new (){ Id = 7, NomPizza = "Veggie", DescriptionPizza = "Tomate, mozzarella, basilic, aubergine, roquette", Ingredients = [] ,PrixPizza = 12.50, ImagePizza = "lib/Images/ImgPizza/veggie.jpg" },
             };
 
             _ = Task.Delay(2000).ContinueWith(_ => 
@@ -108,19 +131,6 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
             });
 
             return pizzas;
-        }
-
-        /// <summary>
-        /// recalcul le prix total du panier en fonction des pizzas présentes dans le panier
-        /// </summary>
-        private void ReCalculPrixTotal()
-        {
-            if (Panier.Count == 0)
-            {
-                PrixTotal = 0;
-                return;
-            }
-            PrixTotal = Panier.Sum(p => p.PrixPizza);
         }
 
         /// <summary>
