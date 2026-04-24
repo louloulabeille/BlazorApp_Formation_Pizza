@@ -1,6 +1,7 @@
 ﻿using BlazorApp_Formation_Pizza_Interface.Services;
 using BlazorApp_Formation_Pizza_Model_DTO;
 using Microsoft.AspNetCore.Components;
+using System.Diagnostics;
 
 namespace BlazorApp_Formation_Pizza.Components.Pages
 {
@@ -34,6 +35,9 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
         #region private inject properties
         [Inject]
         private IPizzaManager _pizzaManager { get; set; } = default!;
+        [Inject]
+        private IPanierManager _panierManager { get; set; } = default!;
+
         #endregion
 
 
@@ -46,6 +50,7 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
         protected override async Task OnInitializedAsync()
         {
             PizzaList.AddRange(await GetPizzas());
+            Panier.AddRange(await _panierManager.GetPanier());
             await base.OnInitializedAsync();
         }
         #endregion
@@ -72,8 +77,9 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
         /// méthod qui permet d'ajouter une pizza au panier et de mettre à jour le prix total
         /// </summary>
         /// <param name="pizza"></param>
-        protected void AddToCart(PizzaDTO pizza)
+        protected async Task AddToCart(PizzaDTO pizza)
         {
+            await _panierManager.AddOrUpdate(pizza);
             Panier.Add(pizza);
         }
 
@@ -97,9 +103,13 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
         /// supprimer la pizza du panier et mettre à jour le prix total
         /// </summary>
         /// <param name="pizza"></param>
-        protected void RemoveFromCart(PizzaDTO pizza)
+        protected async Task RemoveFromCart(PizzaDTO pizza)
         {
+            await _panierManager.Remove(pizza);
             Panier.Remove(pizza);
+
+            Panier.Clear();
+            Panier.AddRange(await _panierManager.GetPanier());
         }
 
         /// <summary>

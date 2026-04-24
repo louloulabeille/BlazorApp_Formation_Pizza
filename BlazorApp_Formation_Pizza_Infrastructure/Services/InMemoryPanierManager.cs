@@ -24,7 +24,13 @@ namespace BlazorApp_Formation_Pizza_Infrastructure.Services
 
         public Task<IEnumerable<PizzaDTO>> GetPanier()
         {
-            return Task.FromResult(_panier.OrderBy(x=>x.Id).AsEnumerable());
+            return Task.FromResult(_panier.AsEnumerable());
+        }
+
+        public Task Remove(PizzaDTO pizza)
+        {
+            _panier = new ConcurrentBag<PizzaDTO>(_panier.Where(x => x.Id != pizza.Id));
+            return Task.CompletedTask;
         }
     }
 }

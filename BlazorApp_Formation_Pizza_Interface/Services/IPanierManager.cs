@@ -9,5 +9,6 @@ namespace BlazorApp_Formation_Pizza_Interface.Services
     {
         public Task<IEnumerable<PizzaDTO>> GetPanier();
         public Task AddOrUpdate(PizzaDTO pizza);
+        public Task Remove(PizzaDTO pizza);
     }
 }
