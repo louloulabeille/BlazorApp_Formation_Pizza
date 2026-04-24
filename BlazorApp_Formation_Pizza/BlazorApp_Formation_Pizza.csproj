@@ -8,8 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\lib\ImgPizza\**" />
+    <Content Remove="wwwroot\lib\ImgPizza\**" />
+    <EmbeddedResource Remove="wwwroot\lib\ImgPizza\**" />
+    <None Remove="wwwroot\lib\ImgPizza\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Infrastructure\" />
-    <Folder Include="wwwroot\lib\ImgPizza\" />
   </ItemGroup>
 
   <ItemGroup>

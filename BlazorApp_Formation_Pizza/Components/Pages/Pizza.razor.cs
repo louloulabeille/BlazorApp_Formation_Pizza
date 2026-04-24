@@ -5,11 +5,16 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
 {
     public class PizzaBase : ComponentBase
     {
+        #region private properties
+        private bool _admin = false;
+        #endregion
+
+
         #region protected Properties view
         protected List<PizzaDTO> PizzaList = [];
         protected List<PizzaDTO> Panier = [];
         protected bool Loading = true;
-        protected bool Admin = false;
+        protected bool Admin { get { return _admin; } set { if(!_admin) Pizza = null; _admin = value; } }
         protected PizzaDTO? Pizza;  // - pizza à modifier
         protected double PrixTotal = 0.0;
         #endregion
@@ -36,7 +41,8 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
         {
             int index = PizzaList.FindIndex(x=> x.Id == Pizza!.Id);
             PizzaList[index] = Pizza!;
-
+            MiseAJourPanier();
+            ReCalculPrixTotal();
             Pizza = null;
         }
 
@@ -56,7 +62,13 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
         /// <param name="pizza"></param>
         protected void EditPizza(PizzaDTO pizza)
         {
-            Pizza = pizza;
+            Pizza = new() { 
+                Id          = pizza.Id,
+                NomPizza    = pizza.NomPizza,
+                DescriptionPizza = pizza.DescriptionPizza,
+                PrixPizza   = pizza.PrixPizza,
+                ImagePizza  = pizza.ImagePizza
+            };
         }
 
         /// <summary>
@@ -80,13 +92,13 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
         {
             var pizzas = new List<PizzaDTO>
             {
-                new (){ Id = 1, NomPizza = "Bacon", DescriptionPizza = "Tomate, mozzarella, basilic, Bacon", PrixPizza = 14.50, ImagePizza = "bacon.jpg" },
-                new (){ Id = 2, NomPizza = "Cheese", DescriptionPizza = "Tomate, mozzarella, gorgonzola", PrixPizza = 13.80, ImagePizza = "cheese.jpg" },
-                new (){ Id = 3, NomPizza = "Margherita", DescriptionPizza = "Tomate, mozzarella, basilic", PrixPizza = 12, ImagePizza = "margherita.jpg" },
-                new (){ Id = 4, NomPizza = "Meaty", DescriptionPizza = "Tomate, mozzarella, basilic, viande hachée, ricotta", PrixPizza = 17, ImagePizza = "meaty.jpg" },
-                new (){ Id = 5, NomPizza = "Champignon", DescriptionPizza = "Tomate, mozzarella, basilic, Bacon, Champignon de Paris", PrixPizza = 13.20, ImagePizza = "mushroom.jpg" },
-                new (){ Id = 6, NomPizza = "Pepperoni", DescriptionPizza = "Tomate, mozzarella, basilic, pepperoni", PrixPizza = 13.20, ImagePizza = "pepperoni.jpg" },
-                new (){ Id = 7, NomPizza = "Veggie", DescriptionPizza = "Tomate, mozzarella, basilic, aubergine, roquette", PrixPizza = 12.50, ImagePizza = "veggie.jpg" },
+                new (){ Id = 1, NomPizza = "Bacon", DescriptionPizza = "Tomate, mozzarella, basilic, Bacon", PrixPizza = 14.50, ImagePizza = "lib/Images/ImgPizza/bacon.jpg" },
+                new (){ Id = 2, NomPizza = "Cheese", DescriptionPizza = "Tomate, mozzarella, gorgonzola", PrixPizza = 13.80, ImagePizza = "lib/Images/ImgPizza/cheese.jpg" },
+                new (){ Id = 3, NomPizza = "Margherita", DescriptionPizza = "Tomate, mozzarella, basilic", PrixPizza = 12, ImagePizza = "lib/Images/ImgPizza/margherita.jpg" },
+                new (){ Id = 4, NomPizza = "Meaty", DescriptionPizza = "Tomate, mozzarella, basilic, viande hachée, ricotta", PrixPizza = 17, ImagePizza = "lib/Images/ImgPizza/meaty.jpg" },
+                new (){ Id = 5, NomPizza = "Champignon", DescriptionPizza = "Tomate, mozzarella, basilic, Bacon, Champignon de Paris", PrixPizza = 13.20, ImagePizza = "lib/Images/ImgPizza/mushroom.jpg" },
+                new (){ Id = 6, NomPizza = "Pepperoni", DescriptionPizza = "Tomate, mozzarella, basilic, pepperoni", PrixPizza = 13.20, ImagePizza = "lib/Images/ImgPizza/pepperoni.jpg" },
+                new (){ Id = 7, NomPizza = "Veggie", DescriptionPizza = "Tomate, mozzarella, basilic, aubergine, roquette", PrixPizza = 12.50, ImagePizza = "lib/Images/ImgPizza/veggie.jpg" },
             };
 
             _ = Task.Delay(2000).ContinueWith(_ => 
@@ -96,6 +108,31 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
             });
 
             return pizzas;
+        }
+
+        /// <summary>
+        /// recalcul le prix total du panier en fonction des pizzas présentes dans le panier
+        /// </summary>
+        private void ReCalculPrixTotal()
+        {
+            if (Panier.Count == 0)
+            {
+                PrixTotal = 0;
+                return;
+            }
+            PrixTotal = Panier.Sum(p => p.PrixPizza);
+        }
+
+        /// <summary>
+        /// Méthod qui met à jour les pizzas du panier en fonction des modifications apportées à la liste des pizzas
+        /// </summary>
+        private void MiseAJourPanier()
+        {
+            for(int i = 0; i < Panier.Count; i++)
+            {
+                Panier[i] = PizzaList.Find(x => x.Id == Panier[i].Id)!;
+            }
+            
         }
         #endregion
     }
