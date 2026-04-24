@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="BlazorApp_Formation_Pizza/BlazorApp_Formation_Pizza.csproj" />
+  <Project Path="BlazorApp_Formation_Pizza_Model_DTO/BlazorApp_Formation_Pizza_Model_DTO.csproj" />
+</Solution>

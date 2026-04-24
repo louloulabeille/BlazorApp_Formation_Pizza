@@ -1,0 +1,102 @@
+﻿@page "/pizza"
+@inherits PizzaBase
+
+@rendermode InteractiveServer
+
+<h3>Pizzas</h3>
+
+<div>
+    <InputCheckbox  @bind-value="Admin" /><label>Mode admin</label>
+</div>
+
+@if (Pizza is not null && Admin)
+{
+    <EditForm OnValidSubmit="SavePizza" Model="Pizza">
+        <DataAnnotationsValidator/>
+        <div Class="form-group">
+            <label Class="col-form-label">Nom de la pizza</label>
+            <InputText Class="form-control" @bind-Value="Pizza.NomPizza"/>
+            <small>
+                <ValidationMessage For="() => Pizza.NomPizza"/>
+            </small>
+        </div>
+        <div Class="form-group">
+            <label class="col-form-label">Description et ingrédient de la pizza</label>
+            <InputText Class="form-control" @bind-Value="Pizza.DescriptionPizza" />
+            <small>
+                <ValidationMessage For="() => Pizza.DescriptionPizza" />
+            </small>
+        </div>
+        <div Class="form-group">
+            <label class="col-form-label">Prix (en €)</label>
+            <InputNumber TValue="double" Class="form-control" @bind-Value="Pizza.PrixPizza" />
+            <small>
+                <ValidationMessage For="() => Pizza.PrixPizza" />
+            </small>
+        </div>
+        <button type="submit" class="btn btn-primary">Fermer</button>
+    </EditForm>
+}
+
+@if (Loading)
+{
+    <p><em>Chargement...</em></p>
+}
+else
+{
+    <div class="row">
+    @if (PizzaList != null && PizzaList.Count > 0)
+    {
+       <div class="col-8">
+        @foreach (var pizza in PizzaList)
+        {
+            <div class="row">
+                <div class="col-2 text-center">
+                    <img rounded class="pizza-image" src="lib/Images/ImgPizza/@pizza.ImagePizza" alt="@pizza.NomPizza" style="width:70px;height:70px;" />
+                </div>
+                
+                <div class="col">
+                    <h5 class="text-warning text-uppercase h5">@pizza.NomPizza</h5>
+                    <p class="fs-6">@pizza.DescriptionPizza</p>
+                </div>
+                <div class="col-2 text-center fs-6">
+                    <div class="row">
+                                <p class="mb-0 small text-primary">@pizza.PrixPizza.ToString("C2")</p>
+                    </div>
+                    <div class="row">
+                        <button @onclick="() => AddToCart(pizza)" class="btn btn-primary-outline">
+                            <img src=" lib/Images/icons8-shopping-basket-50.png" alt="Ajouter dans le Panier" style="width:25px;height:25px" />
+                        </button>
+                    </div>                    
+                </div>
+                <div hidden="@(!Admin)" class="col-1 ">
+                    <button @onclick="() => EditPizza(pizza)" class="btn btn-primary-outline"><img src="lib/Images/icons8-inscription-48.png" style="width:24px; height:24px" alt="Modifier Pizza" /></button>
+                </div>
+            </div>
+        }
+        </div>
+        
+        <div class="col-4 container">
+                <!--// -- affichage du panier-->
+        @foreach (var pizza in Panier)
+        {
+            <div class="row">
+                <div class="col">
+                            <h5 class="h5 text-warning text-uppercase">@pizza.NomPizza</h5>
+                </div>
+                <div class="col-3 fs-6 text-center">
+                      <p>@pizza.PrixPizza.ToString("C2")</p>
+                </div>
+                <div class="col-1 text-center ">
+                    <button class="btn btn-primary-outline" @onclick="() => RemoveFromCart(pizza)"><img style="width:12px;height:12px" src="lib/Images/icons8-close-48.png" alt="Supprimer du Panier" /></button>
+                </div>
+            </div>
+        }
+            <div class="row text-center">
+                <h6 class="text-primary">Prix Total: @PrixTotal.ToString("C2")</h6>
+            </div>
+        </div>
+
+    }
+    </div>
+}
