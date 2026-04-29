@@ -8,8 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddSingleton<IPizzaManager, InMemoryPizzaManager>();
-builder.Services.AddScoped<IPanierManager, InMemoryPanierManager>();
+builder.Services.AddSingleton<I_pizzaManager, InMemory_pizzaManager>();
+builder.Services.AddScoped<I_panierManager, InMemory_panierManager>();
 
 var app = builder.Build();
 

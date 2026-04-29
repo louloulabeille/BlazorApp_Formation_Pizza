@@ -34,9 +34,9 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
 
         #region private inject properties
         [Inject]
-        private IPizzaManager _pizzaManager { get; set; } = default!;
+        private I_pizzaManager _pizzaManager { get; set; } = default!;
         [Inject]
-        private IPanierManager _panierManager { get; set; } = default!;
+        private I_panierManager _panierManager { get; set; } = default!;
 
         #endregion
 
@@ -133,7 +133,7 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
         {
             var pizzas = await _pizzaManager.GetPizzas();
 
-            _ = Task.Delay(100000).ContinueWith(_ => 
+            _ = Task.Delay(10000).ContinueWith(_ => 
             { 
                 Loading = false; 
                 InvokeAsync(StateHasChanged);

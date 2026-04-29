@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BlazorApp_Formation_Pizza_Infrastructure.Services
 {
-    public class InMemoryPizzaManager : IPizzaManager
+    public class InMemory_pizzaManager : I_pizzaManager
     {
         #region private properties
         // - ConcurrentBag est utilisé pour stocker les pizzas en mémoire de manière thread-safe en cas de connexions simultanées.
@@ -17,7 +17,7 @@ namespace BlazorApp_Formation_Pizza_Infrastructure.Services
 
 
         #region constructeur
-        public InMemoryPizzaManager()
+        public InMemory_pizzaManager()
         {
             _pizzas = 
             [
