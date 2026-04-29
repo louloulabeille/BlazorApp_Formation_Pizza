@@ -9,7 +9,7 @@
 
 <div>
     <p>Saisie de la valeur initial</p>
-    <input type="number" @bind-value="InitialCount" @onkeypress="DefaultKey" />
+    <input type="number" @bind-value="InitialCount" @onkeypress="DefaultKey" @onkeypress:preventDefault="true"/>
     <!--<InputNumber @bind-Value="InitialCount"
                  @bind-Value:event="oninput"
                  @onkeypress="DefaultKey"

@@ -15,10 +15,19 @@
 
 <div>
     <label>Current count: @CurrentCount</label>
+</div>
+<div>
     <!-- on désactive le bouton si le compteur atteint 20 -->
     <button class="btn btn-primary" 
             disabled="@(CurrentCount>=20)" 
-            @onclick="()=>CurrentCount++">Click me</button>
+            @onclick="IncrementCount">Click me</button>
+            <!-- @onclick="()=>CurrentCount++" -->
+    <button class="btn btn-secondary" 
+            disabled="@(CurrentCount >= 20)"
+            onclick="IncrementBy3()">
+        
+        Increment by 3
+    </button>
 </div>
 
 <div>
