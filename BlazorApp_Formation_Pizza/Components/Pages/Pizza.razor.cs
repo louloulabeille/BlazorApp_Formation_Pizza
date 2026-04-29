@@ -133,7 +133,7 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
         {
             var pizzas = await _pizzaManager.GetPizzas();
 
-            _ = Task.Delay(2000).ContinueWith(_ => 
+            _ = Task.Delay(100000).ContinueWith(_ => 
             { 
                 Loading = false; 
                 InvokeAsync(StateHasChanged);
