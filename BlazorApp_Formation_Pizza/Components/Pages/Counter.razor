@@ -1,0 +1,25 @@
+﻿@page "/counter"
+@*@page "/counter/{InitCount:int}"
+@page "/counter/{InitCount:int}/{Name}"
+*@
+@inherits CounterBase
+
+@rendermode InteractiveServer
+
+
+
+<h3>Counter</h3>
+<div>
+    <img src="favicon.png" />
+</div>
+
+
+<div>
+    <label>Current count: @CurrentCount</label>
+    <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+</div>
+
+<div>
+    <label>Name: @Name</label>
+</div>
+
