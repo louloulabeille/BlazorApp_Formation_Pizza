@@ -1,0 +1,21 @@
+﻿@page "/counter"
+
+@inherits CounterParentBase
+
+@rendermode InteractiveServer
+
+<PageTitle>Counter</PageTitle>
+<h3>Counter</h3>
+
+<div>
+    <p>Saisie de la valeur initial</p>
+    <input type="number" @bind-value="InitialCount" @onkeypress="DefaultKey" />
+    <!--<InputNumber @bind-Value="InitialCount"
+                 @bind-Value:event="oninput"
+                 @onkeypress="DefaultKey"
+                 @onkeyup:preventDefault="true"></InputNumber>-->
+    <!-- @bind-value:event="oninput"  @onkeypress="DefaultKey" @onkeyup:preventDefault="true" empeche l'action du navigateur par défaut  -->
+</div>
+
+<Counter InitCount="InitialCount" Name="Hanna"></Counter>
+

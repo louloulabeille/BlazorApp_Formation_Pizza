@@ -1,14 +1,13 @@
-﻿@page "/counter"
-@*@page "/counter/{InitCount:int}"
+﻿@page "/counter/{InitCount:int}"
 @page "/counter/{InitCount:int}/{Name}"
-*@
+
 @inherits CounterBase
 
 @rendermode InteractiveServer
 
 
 
-<h3>Counter</h3>
+<!--<h3>Counter</h3>-->
 <div>
     <img src="favicon.png" />
 </div>
@@ -16,7 +15,10 @@
 
 <div>
     <label>Current count: @CurrentCount</label>
-    <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+    <!-- on désactive le bouton si le compteur atteint 20 -->
+    <button class="btn btn-primary" 
+            disabled="@(CurrentCount>=20)" 
+            @onclick="()=>CurrentCount++">Click me</button>
 </div>
 
 <div>
