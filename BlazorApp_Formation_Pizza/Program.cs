@@ -10,6 +10,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddSingleton<I_pizzaManager, InMemory_pizzaManager>();
 builder.Services.AddScoped<I_panierManager, InMemory_panierManager>();
+builder.Services.AddScoped<IWeatherForecast, InMemoryWeatherForcast>();
 
 var app = builder.Build();
 

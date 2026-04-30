@@ -48,7 +48,7 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
         protected override void OnParametersSet()
         {
             CurrentCount = InitCount ?? 0;
-            Name = Name is null ? "Hanna Oberg" : Name;
+            Name = Name is null ? "Hanna" : Name;
             base.OnParametersSet();
         }
 

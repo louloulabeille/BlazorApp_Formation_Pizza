@@ -1,0 +1,77 @@
+﻿@using BlazorApp_Formation_Pizza_Interface.Services
+@using BlazorApp_Formation_Pizza_Model_DTO﻿
+
+@page "/weather"
+
+@attribute [StreamRendering]
+
+@rendermode InteractiveServer
+
+
+@* @inject WheatherForecastService ForecastService*@
+
+<PageTitle>Weather</PageTitle>
+
+<h1>Weather</h1>
+
+<p>This component demonstrates showing data.</p>
+
+<input type="date" placeholder="jj/mm/aaaa" 
+    @bind-value="DateSaisie"/>
+    @*
+    @bind-value:event="oninput" 
+    @onchange="DateClicked" 
+    @onchange:stopPropagation="true"/> *@ <!-- pour éviter la propagation de l'event onchange au parent sinon si le parent a un onchange il va se produire aussi etc -->
+
+<!-- en mettant un format le systeme ne marche pas quand on l'initialise à une date donnée -->
+@*
+@bind-value:format="dd/MM/yyyy"/>
+*@
+<button @onclick="DateClicked" class="btn btn-primary">Rafraichir</button>
+
+@if (_forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th aria-label="Temperature in Celsius">Temp. (C)</th>
+                <th aria-label="Temperature in Fahrenheit">Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in _forecasts)
+            {
+                <tr>
+                    <td>@forecast.Date.ToShortDateString()</td>
+                    <td>@forecast.TemperatureC</td>
+                    <td>@forecast.TemperatureF</td>
+                    <td>@forecast.Summary</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    public DateTime DateSaisie { get; set; } = DateTime.Today;
+
+    [Inject] IWeatherForecast? ForecastService { get; set; }
+
+    private WeatherForecast[]? _forecasts;
+
+    protected async Task DateClicked()
+    {
+        _forecasts = await ForecastService!.GetForecasts(DateSaisie);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await DateClicked();
+    }
+}
