@@ -1,12 +1,10 @@
-﻿@using BlazorApp_Formation_Pizza_Interface.Services
-@using BlazorApp_Formation_Pizza_Model_DTO﻿
-
-@page "/weather"
+﻿@page "/weather"
 
 @attribute [StreamRendering]
+@* pour eviter le pre-dendu en cache lors du chargement de la page sinon 2 chargements de la table *@
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
 
-@rendermode InteractiveServer
-
+@inherits FetchDataBase
 
 @* @inject WheatherForecastService ForecastService*@
 
@@ -29,9 +27,13 @@
 *@
 <button @onclick="DateClicked" class="btn btn-primary">Rafraichir</button>
 
-@if (_forecasts == null)
+@if (Forecasts == null)
 {
-    <p><em>Loading...</em></p>
+    <!--<p><em>Loading...</em></p>-->
+    <div class="row text-center">
+        <Loader  TimeOut="2000">Le temps de chargement est un peu long, veuillez patientez merci.</Loader>
+    </div>
+    
 }
 else
 {
@@ -45,7 +47,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in _forecasts)
+            @foreach (var forecast in Forecasts)
             {
                 <tr>
                     <td>@forecast.Date.ToShortDateString()</td>
@@ -56,22 +58,4 @@ else
             }
         </tbody>
     </table>
-}
-
-@code {
-    public DateTime DateSaisie { get; set; } = DateTime.Today;
-
-    [Inject] IWeatherForecast? ForecastService { get; set; }
-
-    private WeatherForecast[]? _forecasts;
-
-    protected async Task DateClicked()
-    {
-        _forecasts = await ForecastService!.GetForecasts(DateSaisie);
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await DateClicked();
-    }
 }

@@ -10,7 +10,7 @@ namespace BlazorApp_Formation_Pizza_Infrastructure.Services
     {
         public async Task<WeatherForecast[]> GetForecasts(DateTime date)
         {
-            await Task.Delay(500);
+            await Task.Delay(5000);
 
             var startDate = DateOnly.FromDateTime(date);
             var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
