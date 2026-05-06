@@ -1,15 +1,14 @@
 ﻿@inherits LoaderBase
+<div class="row text-center">
+    <p>
+        <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+    </p>
+    @if (ShowLoaderMessage)
+    {
+        <p>@ChildContent</p>
+    }
 
-<div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
-
-@if (ShowLoaderMessage)
-{
-    <div class="row">
-        <p>@ChildContent;</p>
-    </div>
-    
-}
-
+</div>
 
 @*@code{
 

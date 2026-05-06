@@ -1,7 +1,8 @@
 ﻿@page "/pizza"
 @inherits PizzaBase
 
-@rendermode InteractiveServer
+@*@rendermode InteractiveServer*@
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
 
 <h3>Pizzas</h3>
 
