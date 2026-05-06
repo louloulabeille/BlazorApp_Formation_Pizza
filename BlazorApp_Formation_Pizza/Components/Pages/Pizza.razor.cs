@@ -132,12 +132,12 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
         private async Task<List<PizzaDTO>> GetPizzas()
         {
             var pizzas = await _pizzaManager.GetPizzas();
-
-            _ = Task.Delay(10000).ContinueWith(_ => 
-            { 
-                Loading = false; 
-                InvokeAsync(StateHasChanged);
-            });
+            Loading = false;
+            /* _ = Task.Delay(10000).ContinueWith(_ => 
+             { 
+                 Loading = false; 
+                 InvokeAsync(StateHasChanged);
+             });*/
 
             return [.. pizzas];
         }
