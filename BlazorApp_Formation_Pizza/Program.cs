@@ -1,4 +1,5 @@
 using BlazorApp_Formation_Pizza.Components;
+using BlazorApp_Formation_Pizza.Infrastructure.Extends;
 using BlazorApp_Formation_Pizza_Infrastructure.Services;
 using BlazorApp_Formation_Pizza_Interface.Services;
 
@@ -8,8 +9,18 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddSingleton<I_pizzaManager, InMemory_pizzaManager>();
-builder.Services.AddScoped<I_panierManager, InMemory_panierManager>();
+#region IOptions
+// - création injection dépendance avec Ioption - UrlApi
+builder.Services.AddUrlApiExtend(builder.Configuration);
+#endregion
+
+#region HttpClient injection
+builder.Services.AddHttpClientExtend();
+#endregion
+
+// - injection dépendance pour la gestion des data  
+//builder.Services.AddSingleton<IPizzaManager, InMemory_pizzaManager>();
+builder.Services.AddScoped<IPanierManager, InMemoryPanierManager>();
 builder.Services.AddScoped<IWeatherForecast, InMemoryWeatherForcast>();
 
 var app = builder.Build();

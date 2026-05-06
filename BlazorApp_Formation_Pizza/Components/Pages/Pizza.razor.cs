@@ -34,9 +34,9 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
 
         #region private inject properties
         [Inject]
-        private I_pizzaManager _pizzaManager { get; set; } = default!;
+        private IPizzaManager _pizzaManager { get; set; } = default!;
         [Inject]
-        private I_panierManager _panierManager { get; set; } = default!;
+        private IPanierManager _panierManager { get; set; } = default!;
 
         #endregion
 

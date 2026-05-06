@@ -7,7 +7,7 @@ using System.Text;
 
 namespace BlazorApp_Formation_Pizza_Infrastructure.Services
 {
-    public class InMemory_panierManager : I_panierManager
+    public class InMemoryPanierManager : IPanierManager
     {
         #region private properties
         private ConcurrentBag<PizzaDTO> _panier = [];
