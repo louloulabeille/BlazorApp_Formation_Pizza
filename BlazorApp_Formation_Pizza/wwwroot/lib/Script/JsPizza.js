@@ -19,6 +19,7 @@ class Increment3 {
     constructor(dotNetObject) {
         this.dotNetObject = dotNetObject;
     }
+    // - method qui appelle la methode C#
     IncrementBy3() {
         this.dotNetObject.invokeMethodAsync("JSIncrementBy3");
     }
@@ -26,7 +27,7 @@ class Increment3 {
 
 // var counterComponent;
 
-// - création d'une methode de reférence pour faire appel à une method C# depuis JavaScript
+// - création de l'instance de reférence pour faire appel à une method C# depuis JavaScript
 // - cette methode est appelée depuis le code C# avec pour parametre un object Dotnet 
 window.storeCounterReference = (dotNetObject) => {
     if (dotNetObject) {
@@ -36,6 +37,7 @@ window.storeCounterReference = (dotNetObject) => {
           
 };
 
+// - fonction javascript appeler depuis la vue sur le onclick html
 function IncrementBy3() {
     //if(counterComponent) {
     if (window.incrementBy3Instance) {

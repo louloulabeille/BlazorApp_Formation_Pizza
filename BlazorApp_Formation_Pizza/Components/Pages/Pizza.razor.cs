@@ -20,7 +20,7 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
         protected PizzaDTO? Pizza;  // - pizza à modifier
 
         // - test avec un tableau d'ingredients on prend une propertie en intermédiaire pour l'affichage dans le formulaire et l'enregistrement
-        /*protected string Ingredients
+        protected string Ingredients
         { 
             get {
                 return Pizza is not null ? string.Join(", ", Pizza.Ingredients) : string.Empty;
@@ -29,7 +29,7 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
                 if (Pizza is not null)
                     Pizza.Ingredients = value.Split(", ").Select(x => x.Trim()).ToArray(); ; 
             } 
-        }*/
+        }
         #endregion
 
         #region private inject properties

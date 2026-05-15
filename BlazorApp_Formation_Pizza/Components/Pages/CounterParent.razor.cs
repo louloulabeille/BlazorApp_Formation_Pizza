@@ -47,7 +47,7 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
         {
             try
             {
-                if (firstRender) // - prmier rendu
+                if (firstRender) // - premier rendu
                 {
                     // Call JavaScript function to ask for initial value
                     var result = await JSRuntime.InvokeAsync<string>("askInitial");
@@ -56,15 +56,15 @@ namespace BlazorApp_Formation_Pizza.Components.Pages
                         InitialCount = parsedValue;
                         // - rafraichie la page pour afficher la nouvelle valeur comme le rendu est déjà fait,
                         // on doit forcer le rafraichissement de la page pour afficher la nouvelle valeur
-                        StateHasChanged();                     
+                        await this.InvokeAsync(StateHasChanged);                     
                     }
                 }
-                await base.OnAfterRenderAsync(firstRender);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error calling JavaScript: {ex.Message}");
             }
+            await base.OnAfterRenderAsync(firstRender);
         }
 
         /*protected async override void OnAfterRender(bool firstRender)
